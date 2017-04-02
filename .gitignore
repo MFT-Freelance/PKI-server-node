@@ -1,0 +1,12 @@
+##
+## Ignore installed NodeJS modules
+##
+
+node_modules/
+
+
+##
+## Ignore dynamic directories
+##
+
+tmp/

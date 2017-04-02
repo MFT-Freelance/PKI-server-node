@@ -1,0 +1,68 @@
+###
+### Server config: IP-Address and port to listen to.
+###
+
+server:
+    listen:
+        ip: 127.0.0.1
+    altIps: [127.0.0.1, 10.10.167.75, 172.17.0.3]
+    public:
+        domain: localhost
+        port: 8080
+    secure:
+        domain: localhost
+        port: 9090
+        userAuth: true
+    ocsp:
+        domain: localhost
+        port: 8443
+    altNames: [localhost]
+
+pkidir: 'D:/Perso/BACKUP/pki/'
+
+###
+### CA config: Passphrase for CA Key
+###
+
+ca:
+    root:
+        name: 'root'
+        passphrase: 'xxxx'
+        days: 3650
+        country: FR
+        state: PACA
+        locality: Antibes
+        organization: MFT
+        commonname: API Root CA
+    intermediate:
+        passphrase: 'yyyyy'
+        days: 3650
+        country: FR
+        state: PACA
+        locality: Antibes
+        organization: MFT
+        commonname: Intermediate CA
+
+
+###
+### Settings for end user certificates
+###
+cert:
+    lifetime_default: 1
+    lifetime_max: 365
+
+###
+### Admin user
+###
+user:
+    name: "admin"
+    password: "yyyy"
+
+###
+### API KEY
+###
+api:
+    name: "api"
+    password: "yyyy"
+
+

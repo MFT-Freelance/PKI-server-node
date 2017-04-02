@@ -1,0 +1,308 @@
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "script"
+    },
+    "ecmaFeatures": {
+        "modules": false
+    },
+    "env": {
+        "browser": false,
+        "node": true,
+        "es6": true /** all es6 features except modules */
+    },
+    "plugins": [
+        "scanjs-rules",
+        "no-unsafe-innerhtml"
+    ],
+    "rules": {
+        /**
+        Sonar GTO  rules gto_tbu_rd_js_profile_v1
+         */
+        "semi": [
+            2,
+            "always"
+        ],
+        "no-eval": 2,
+        "eqeqeq": 2,
+        "curly": 2,
+        "no-unreachable": 2,
+        "max-depth": [2, 5],
+        "no-inner-declarations": 2,
+        "no-new-wrappers": 2,
+        "no-multi-str": 2,
+        "no-debugger": 2,
+        "no-bitwise": 2,
+        "no-native-reassign": 2,
+        "no-new-object": 2,
+        "no-new-func": 2,
+        "comma-dangle": 2,
+        /* Only related to browser but blocker in sonar ... */
+        "complexity": [
+            2, 10
+        ],
+        "no-with": 2,
+        /** Not Found:
+         -->Only "while", "do" and "for" statements should be labelled
+         -->"for...in" loops should filter properties before acting on them
+         Sections of code should not be "commented out" */
+        /** End GTO sonar rules */
+        /** useful rules from eslint to be proposed to RDIS**/
+        "no-self-assign": 2,
+        "no-unsafe-finally": 2,
+        "max-params": [
+            2, 6
+        ],
+        "spaced-comment": [
+            0,
+            "always"
+        ], //VS    "spaced-comment": "error",
+        "no-underscore-dangle": 0,
+        "linebreak-style": [
+            0,
+            "unix"
+        ],
+        "quotes": [
+            0,
+            "double"
+        ], //VS "quotes": ["error", "single"],
+        "prefer-const": 2,
+        "no-console": 2,
+        "no-extra-semi": 2,
+        "no-extra-parens": 0,
+        "space-before-function-paren": [
+            0,
+            {
+                "anonymous": "always",
+                "named": "never"
+            }
+        ], //VS "space-before-function-paren": ["error", "never"],
+        "keyword-spacing": [
+            0
+        ],
+        "space-before-blocks": [
+            0,
+            "always"
+        ], //vs  "space-before-blocks": "error",
+        "semi-spacing": [
+            2,
+            {
+                "before": false,
+                "after": true
+            }
+        ], //VS "semi": ["error", "always"],
+        "no-var": 2,
+        "object-shorthand": [
+            2,
+            "always"
+        ],
+
+        /** From MAG **/
+        /**
+        "indent": ["error", 4, { "SwitchCase": 1 }], // Documentation (http://eslint.org/docs/rules/indent)
+        // "linebreak-style": ["error", "unix"],
+
+
+            "array-callback-return": "error",
+            "block-scoped-var": "error",
+            "consistent-return": "error",
+            "dot-notation": "error",
+
+            "guard-for-in": "error",
+            "no-div-regex": "error",
+            "no-else-return": "error",
+            "no-eq-null": "error",
+            "no-extra-bind": "error",
+            "no-extra-label": "error",
+            "no-floating-decimal": "error",
+            "no-implied-eval": "error",
+            "no-invalid-this": "error",
+            "no-iterator": "error",
+            "no-labels": "error",
+            "no-lone-blocks": "error",
+            "no-loop-func": "warn",
+            "no-multi-spaces": "error",
+            "no-new": "error",
+            "no-octal-escape": "error",
+            "no-proto": "error",
+            "no-return-assign": "error",
+            "no-self-compare": "error",
+            "no-sequences": "error",
+            "no-throw-literal": "error",
+            "no-unmodified-loop-condition": "error",
+            "no-unused-expressions": "error",
+            "no-useless-call": "error",
+            "no-useless-concat": "error",
+            "no-useless-escape": "error",
+            "no-void": "error",
+            "wrap-iife": ["error", "inside"],
+            "yoda": "warn",
+            "strict": ["error", "global"],
+            "no-shadow-restricted-names": "error",
+            // TODO: http://eslint.org/docs/rules/no-shadow
+            "no-undef-init": "error",
+            "no-use-before-define": "warn",
+            "callback-return": "error",
+            "global-require": "error",
+            "handle-callback-err": "error",
+            "no-new-require": "error",
+            "no-path-concat": "error",
+            "no-process-exit": "error",
+            "no-sync": "error",
+            "no-mixed-requires": "error", // Documentation (http://eslint.org/docs/rules/no-mixed-requires)
+            "array-bracket-spacing": "error",
+            "block-spacing": "error",
+            "brace-style": ["error", "1tbs"],
+            "camelcase": "error",
+            "comma-spacing": "error",
+            "comma-style": "error",
+            "computed-property-spacing": "error",
+            "consistent-this": ["error", "self"],
+            "eol-last": "error",
+            "func-names": "warn",
+            "func-style": ["error", "declaration", { "allowArrowFunctions": true }], // Documentation (http://eslint.org/docs/rules/func-style)
+            "key-spacing": "error",
+            "lines-around-comment": "error",
+            "max-statements-per-line": "error",
+            "new-cap": ["error", { "properties": false }],
+            "new-parens": "error",
+            "newline-per-chained-call": "error",
+            "no-array-constructor": "error",
+            "no-continue": "warn",
+            "no-lonely-if": "error",
+            "no-mixed-operators": "error",
+            "no-mixed-spaces-and-tabs": "error",
+            "no-multiple-empty-lines": ["error", { "max": 1 }],
+            "no-negated-condition": "error",
+            "no-nested-ternary": "error",
+            "no-spaced-func": "error",
+            "no-trailing-spaces": "error",
+            "no-unneeded-ternary": "error",
+            "no-whitespace-before-property": "error",
+            "object-curly-newline": ["error", { "minProperties": 1 }], // Documentation (http://eslint.org/docs/rules/object-curly-newline)
+            "object-curly-spacing": ["error", "always"],
+            "object-property-newline": "error",
+            "one-var-declaration-per-line": ["error", "always"],
+            "one-var": ["error", "never"],
+            "operator-assignment": ["error", "always"],
+            // TODO: http://eslint.org/docs/rules/operator-linebreak
+            "padded-blocks": ["error", "never"],
+            "quote-props": ["error", "as-needed"],
+
+
+            "space-in-parens": "error",
+            "space-infix-ops": "error",
+
+
+            "arrow-body-style": "error",
+            "arrow-parens": "error",
+            "arrow-spacing": "error",
+            "constructor-super": "error",
+            "generator-star-spacing": ["error", "both"],
+            "no-class-assign": "error",
+            "no-const-assign": "error",
+            "no-dupe-class-members": "error",
+            "no-new-symbol": "error",
+            "no-this-before-super": "error",
+            "no-useless-computed-key": "error",
+            "no-useless-constructor": "error",
+            "no-useless-rename": "error",
+            "require-yield": "warn",
+            "template-curly-spacing": "error",
+            "yield-star-spacing": ["error", "both"],
+
+
+            **/
+        /** End from MAG **/
+
+        /** no-unsafe-innerhtml rule **/
+        /**"no-unsafe-innerhtml/no-unsafe-innerhtml" : 2,**/
+        /** ScanJS rules **/
+        /** To be sorted with rules dedicated to browser **/
+        "scanjs-rules/assign_to_hostname": 1,
+        "scanjs-rules/assign_to_href": 1,
+        "scanjs-rules/assign_to_location": 0,
+        "scanjs-rules/assign_to_mozAudioChannel": 1,
+        "scanjs-rules/assign_to_mozAudioChannelType": 1,
+        "scanjs-rules/assign_to_onmessage": 1,
+        "scanjs-rules/assign_to_pathname": 1,
+        "scanjs-rules/assign_to_protocol": 1,
+        "scanjs-rules/assign_to_search": 1,
+        "scanjs-rules/assign_to_src": 1,
+        "scanjs-rules/call_Function": 1,
+        "scanjs-rules/call_addEventListener": 1,
+        "scanjs-rules/call_addEventListener_cellbroadcastmsgchanged": 1,
+        "scanjs-rules/call_addEventListener_deviceproximity": 1,
+        "scanjs-rules/call_addEventListener_message": 1,
+        "scanjs-rules/call_addEventListener_moznetworkdownload": 1,
+        "scanjs-rules/call_addEventListener_moznetworkupload": 1,
+        "scanjs-rules/call_eval": 1,
+        "scanjs-rules/call_execScript": 1,
+        "scanjs-rules/call_generateCRMFRequest": 1,
+        "scanjs-rules/call_getDeviceStorage_apps": 1,
+        "scanjs-rules/call_getDeviceStorage_crashes": 1,
+        "scanjs-rules/call_getDeviceStorage_music": 1,
+        "scanjs-rules/call_getDeviceStorage_pictures": 1,
+        "scanjs-rules/call_getDeviceStorage_sdcard": 1,
+        "scanjs-rules/call_getDeviceStorage_videos": 1,
+        "scanjs-rules/call_hide": 1,
+        "scanjs-rules/call_mozSetMessageHandler": 1,
+        "scanjs-rules/call_mozSetMessageHandler_activity": 1,
+        "scanjs-rules/call_mozSetMessageHandler_wappush_received": 1,
+        "scanjs-rules/call_open_attention": 1,
+        "scanjs-rules/call_open_remote=true": 1,
+        "scanjs-rules/call_parseFromString": 1,
+        "scanjs-rules/call_setAttribute_mozapp": 1,
+        "scanjs-rules/call_setAttribute_mozbrowser": 1,
+        "scanjs-rules/call_setImmediate": 1,
+        "scanjs-rules/call_setInterval": 1,
+        "scanjs-rules/call_setMessageHandler_connect": 1,
+        "scanjs-rules/call_setTimeout": 1,
+        "scanjs-rules/call_write": 1,
+        "scanjs-rules/call_writeln": 1,
+        "scanjs-rules/identifier_indexedDB": 1,
+        "scanjs-rules/identifier_localStorage": 1,
+        "scanjs-rules/identifier_sessionStorage": 1,
+        "scanjs-rules/new_Function": 1,
+        "scanjs-rules/new_MozActivity": 1,
+        "scanjs-rules/new_MozSpeakerManager": 1,
+        "scanjs-rules/new_Notification": 1,
+        "scanjs-rules/object_mozSystem": 1,
+        "scanjs-rules/property_addIdleObserver": 1,
+        "scanjs-rules/property_createContextualFragment": 1,
+        "scanjs-rules/property_geolocation": 1,
+        "scanjs-rules/property_getDataStores": 1,
+        "scanjs-rules/property_getDeviceStorage": 1,
+        "scanjs-rules/property_getUserMedia": 1,
+        "scanjs-rules/property_indexedDB": 1,
+        "scanjs-rules/property_lastKnownHomeNetwork": 1,
+        "scanjs-rules/property_lastKnownNetwork": 1,
+        "scanjs-rules/property_localStorage": 1,
+        "scanjs-rules/property_mgmt": 1,
+        "scanjs-rules/property_mozAlarms": 1,
+        "scanjs-rules/property_mozBluetooth": 1,
+        "scanjs-rules/property_mozCameras": 1,
+        "scanjs-rules/property_mozCellBroadcast": 1,
+        "scanjs-rules/property_mozContacts": 1,
+        "scanjs-rules/property_mozDownloadManager": 1,
+        "scanjs-rules/property_mozFMRadio": 1,
+        "scanjs-rules/property_mozInputMethod": 1,
+        "scanjs-rules/property_mozKeyboard": 1,
+        "scanjs-rules/property_mozMobileConnection": 1,
+        "scanjs-rules/property_mozMobileConnections": 1,
+        "scanjs-rules/property_mozMobileMessage": 1,
+        "scanjs-rules/property_mozNetworkStats": 1,
+        "scanjs-rules/property_mozNfc": 1,
+        "scanjs-rules/property_mozNotification": 1,
+        "scanjs-rules/property_mozPermissionSettings": 1,
+        "scanjs-rules/property_mozPhoneNumberService": 1,
+        "scanjs-rules/property_mozPower": 1,
+        "scanjs-rules/property_mozSettings": 1,
+        "scanjs-rules/property_mozTCPSocket": 1,
+        "scanjs-rules/property_mozTelephony": 1,
+        "scanjs-rules/property_mozTime": 1,
+        "scanjs-rules/property_mozVoicemail": 1,
+        "scanjs-rules/property_mozWifiManager": 1,
+        "scanjs-rules/property_sessionStorage": 1
+    }
+}

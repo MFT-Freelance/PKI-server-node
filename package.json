@@ -1,0 +1,31 @@
+{
+    "name": "nodepki",
+    "version": "0.0.1",
+    "description": "NodeJS-based PKI server for x509 certificate management.",
+    "author": "Font Mathieu",
+    "license": "MIT",
+    "keywords": [
+        "x509",
+        "pki",
+        "ca"
+    ],
+    "main": "server.js",
+    "scripts": {
+        "test": "echo \"There is no test.\" && exit 0;"
+    },
+    "dependencies": {
+        "ajv": "4.x",
+        "body-parser": "1.x",
+        "command-exists": "1.2.x",
+        "express": "4.x",
+        "debug": "2.x",
+        "figlet": "1.2.x",
+        "fs-extra": "2.0.x",
+        "js-yaml": "3.x",
+        "suspend": "0.7.0",
+        "uuid": "3.x",
+        "yargs": "6.6.x",
+        "lodash": "4.x"
+    },
+    "devDependencies": {}
+}
