@@ -178,17 +178,9 @@ function* certificateList() {
     const treatSubject = function() {
         const self = this;
         const sj = self.txtSubject.split('/');
-        if (sj.length === 7) {
-            sj[5] = sj[5] + '/' + sj[6];
-            sj.splice(6, 1);
-        }
         sj.forEach(function(prop) {
-            const firstSign = prop.indexOf('=');
-            if (firstSign > 0) {
-                const k = prop.substring(0, firstSign);
-                const v = prop.substring(firstSign + 1);
-                self.subject[k] = v;
-            }
+            const parts = prop.split('=');
+            self.subject[parts[0]] = parts[1];
         });
         delete self.txtSubject;
     };

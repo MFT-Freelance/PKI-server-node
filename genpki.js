@@ -162,7 +162,7 @@ function* createAPICert() {
             C: "FR",
             ST: "PACA",
             L: "Antibes",
-            O: "GEMALTO SA",
+            O: "MFT",
             CN: global.config.server.secure.domain,
             ipAddress: global.config.server.altIps,
             altNames: global.config.server.altNames

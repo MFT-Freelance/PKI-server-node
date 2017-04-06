@@ -19,7 +19,7 @@ const addUser = function*(username, password, lvl) {
     yield fs.ensureFile(DB_FILE_PATH, cont());
 
     // Calc passhash
-    const passhash = crypto.createHash('sha256').update(username + ':' + password).digest('base64');
+    const passhash = crypto.createHash('sha256').update(username + ':' + password).digest('hex');
 
     // Read existing file
     let passfile = yield fs.readFile(DB_FILE_PATH, 'utf8', cont());
@@ -164,7 +164,7 @@ function basicAuth(req, cb) {
     const header = req.headers.authorization || ''; // get the header
     const token = header.split(/\s+/).pop() || ''; // and the encoded auth token
     const b64Translated = new Buffer(token, 'base64').toString(); // convert from base64
-    const hash = crypto.createHash('sha256').update(b64Translated).digest('base64');
+    const hash = crypto.createHash('sha256').update(b64Translated).digest('hex');
     checkUser(hash, cb);
 }
 
@@ -174,7 +174,7 @@ function* createUserKey(username, passWord) {
         ST: global.config.ca.root.state,
         L: global.config.ca.root.locality,
         O: global.config.ca.root.organization,
-        CN: crypto.createHash('sha256').update(username + ':' + passWord).digest('base64')
+        CN: crypto.createHash('sha256').update(username + ':' + passWord).digest('hex')
     };
 
     const issuer = {
