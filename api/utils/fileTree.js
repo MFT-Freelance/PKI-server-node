@@ -80,6 +80,7 @@ function createRootFileStructure(rootName, days, info) {
     openssl_root = openssl_root.replace(/{state}/g, info.ST);
     openssl_root = openssl_root.replace(/{locality}/g, info.L);
     openssl_root = openssl_root.replace(/{organization}/g, info.O);
+    openssl_root = openssl_root.replace(/{unit}/g, info.OU);
     openssl_root = openssl_root.replace(/{commonname}/g, info.CN);
 
     fs.writeFileSync(pkidir + rootName + '/openssl.cnf', openssl_root);
@@ -115,6 +116,7 @@ function createIntermediateFileStructure(parentDir, publicDir, newPath, days, in
     openssl_intermediate = openssl_intermediate.replace(/{state}/g, info.ST);
     openssl_intermediate = openssl_intermediate.replace(/{locality}/g, info.L);
     openssl_intermediate = openssl_intermediate.replace(/{organization}/g, info.O);
+    openssl_intermediate = openssl_intermediate.replace(/{unit}/g, info.OU);
     openssl_intermediate = openssl_intermediate.replace(/{commonname}/g, info.CN);
     openssl_intermediate = openssl_intermediate.replace(/{ocspurl}/g, 'http://' + global.config.server.ocsp.domain + ':' + ocspPort.toString());
     openssl_intermediate = openssl_intermediate.replace(/{crlurl}/g, 'https://' + global.config.server.crl.domain + ':' + global.config.server.crl.port + '/' + publicDir + '/' + newPath + '.crl.pem');

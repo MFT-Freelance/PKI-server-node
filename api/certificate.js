@@ -41,6 +41,9 @@ certificate.privates = function(req, res) {
                     "O": {
                         "type": "string"
                     },
+                    "OU": {
+                        "type": "string"
+                    },
                     "CN": {
                         "type": "string"
                     },
@@ -51,7 +54,7 @@ certificate.privates = function(req, res) {
                         "type": "array"
                     }
                 },
-                "required": ["C", "ST", "L", "O", "CN"]
+                "required": ["C", "ST", "L", "O", "OU", "CN"]
             }
         },
         "required": ["info"]
@@ -172,6 +175,9 @@ certificate.pairCreation = function(req, res) {
                     "O": {
                         "type": "string"
                     },
+                    "OU": {
+                        "type": "string"
+                    },
                     "CN": {
                         "type": "string"
                     },
@@ -182,7 +188,7 @@ certificate.pairCreation = function(req, res) {
                         "type": "array"
                     }
                 },
-                "required": ["C", "ST", "L", "O", "CN"]
+                "required": ["C", "ST", "L", "O", "OU", "CN"]
             },
             "issuer": {
                 "type": "object",

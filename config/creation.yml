@@ -12,8 +12,8 @@ ca:
       country: FR
       state: PACA
       locality: Antibes
-      organization: MFT
       unit: Development
+      organization: MFT
       commonname: API Root CA
       issued:
         - name: 'intermediate'
@@ -32,8 +32,8 @@ ca:
       country: FR
       state: PACA
       locality: Antibes
-      organization: MFT
       unit: Freelance
+      organization: MFT
       commonname: External Root CA
       issued:
         - name: 'intermediate'

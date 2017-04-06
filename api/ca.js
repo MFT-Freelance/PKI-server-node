@@ -77,11 +77,14 @@ ca.root = function(req, res) {
                     "O": {
                         "type": "string"
                     },
+                    "OU": {
+                        "type": "string"
+                    },
                     "CN": {
                         "type": "string"
                     }
                 },
-                "required": ["C", "ST", "L", "O", "CN"]
+                "required": ["C", "ST", "L", "O", "OU", "CN"]
             }
         },
         "required": ["name", "info"]
@@ -164,11 +167,14 @@ ca.intermediate = function(req, res) {
                     "O": {
                         "type": "string"
                     },
+                    "OU": {
+                        "type": "string"
+                    },
                     "CN": {
                         "type": "string"
                     }
                 },
-                "required": ["C", "ST", "L", "O", "CN"]
+                "required": ["C", "ST", "L", "O", "OU", "CN"]
             }
         },
         "required": ["issuer", "name", "info"]

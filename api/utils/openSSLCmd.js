@@ -45,7 +45,7 @@ function createClearKey(name, numbits, folder, cb) {
 
 function createCSR(info, name, passphrase, folder, cb) {
     folder = folder.replace(/\\/g, '/');
-    const subj = '-subj "/C=' + info.C + '/ST=' + info.ST + '/L=' + info.L + '/O=' + info.O + '/CN=' + info.CN + '"';
+    const subj = '-subj "/C=' + info.C + '/ST=' + info.ST + '/L=' + info.L + '/O=' + info.O + '/OU=' + info.OU + '/CN=' + info.CN + '"';
     exec('openssl req ' + subj + ' -new -sha256 -key ' + name + '.key.pem -out ' + name + '.csr.pem -passin pass:' + passphrase, {
         cwd: folder
     }, function(err, stdout, stderr) {
@@ -90,6 +90,7 @@ function copySSLCnf(name, info, folder, cb) {
             openssl_cert = openssl_cert.replace(/{country}/g, info.C);
             openssl_cert = openssl_cert.replace(/{locality}/g, info.L);
             openssl_cert = openssl_cert.replace(/{organization}/g, info.O);
+            openssl_cert = openssl_cert.replace(/{unit}/g, info.OU);
             openssl_cert = openssl_cert.replace(/{commonname}/g, info.CN);
             let alternates = '';
             if (info.ipAddress && info.ipAddress.length > 0) {
