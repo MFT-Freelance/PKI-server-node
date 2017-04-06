@@ -47,6 +47,9 @@ certificate.privates = function(req, res) {
                     "CN": {
                         "type": "string"
                     },
+                    "email": {
+                        "type": "string"
+                    },
                     "ipAddress": {
                         "type": "array"
                     },
@@ -179,6 +182,9 @@ certificate.pairCreation = function(req, res) {
                         "type": "string"
                     },
                     "CN": {
+                        "type": "string"
+                    },
+                    "email": {
                         "type": "string"
                     },
                     "ipAddress": {

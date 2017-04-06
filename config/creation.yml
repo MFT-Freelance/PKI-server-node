@@ -46,6 +46,7 @@ ca:
 
 server:
   commonname: 'localhost'
+  email: 'hello@gmail.com'
   altIps: [127.0.0.1]
   altNames: [localhost]
   certificate:

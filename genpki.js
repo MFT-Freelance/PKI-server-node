@@ -113,6 +113,7 @@ function* createAPIKeys() {
             O: ca.organization,
             OU: ca.unit,
             CN: config.server.commonname,
+            email: config.server.email,
             ipAddress: config.server.altIps,
             altNames: config.server.altNames
         },

@@ -67,6 +67,7 @@ Set DEBUG=pki:* to see debug logs
         * ST <String> | required | State
         * L <String> | required | Locality
         * O <String> | required | Organisation
+        * OU <String> | required | Organisation Unit
         * CN <String> | required | Common name
 
     Response:
@@ -86,6 +87,7 @@ Set DEBUG=pki:* to see debug logs
         * ST <String> | required | State
         * L <String> | required | Locality
         * O <String> | required | Organisation (if the issuer is root, Organisation must be the same as issuer)
+        * OU <String> | required | Organisation Unit
         * CN <String> | required | Common name
     * issuer: <Object>
         * root <String> | required | Issuer CA root
@@ -158,6 +160,8 @@ Set DEBUG=pki:* to see debug logs
         * L <String> | required | Locality
         * O <String> | required | Organisation
         * CN <String> | required | Common name (main domain)
+        * OU <String> | required | Organisation Unit
+        * email <String> | optional | Email address
         * ipAddress <String array> | optional | Array of IP addresses
         * altNames <String array> | optional | Array of alternate domains
 
@@ -194,7 +198,9 @@ Set DEBUG=pki:* to see debug logs
         * ST <String> | required | State
         * L <String> | required | Locality
         * O <String> | required | Organisation
+        * OU <String> | required | Organisation Unit
         * CN <String> | required | Common name (main domain)
+        * email <String> | optional | Email address
         * ipAddress <String array> | optional | Array of IP addresses
         * altNames <String array> | optional | Array of alternate domains
     * issuer: <Object>

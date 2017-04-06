@@ -93,6 +93,9 @@ function copySSLCnf(name, info, folder, cb) {
             openssl_cert = openssl_cert.replace(/{unit}/g, info.OU);
             openssl_cert = openssl_cert.replace(/{commonname}/g, info.CN);
             let alternates = '';
+            if (info.email) {
+                alternates += 'email = ' + info.email + '\n';
+            }
             if (info.ipAddress && info.ipAddress.length > 0) {
                 for (let i = 0; i < info.ipAddress.length; i++) {
                     alternates += 'IP.' + (i + 1).toString() + ' = ' + info.ipAddress[i] + '\n';
