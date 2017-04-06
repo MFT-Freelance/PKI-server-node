@@ -12,7 +12,7 @@
 
 const fs = require('fs-extra');
 const yaml = require('js-yaml');
-global.config = yaml.safeLoad(fs.readFileSync('data/config/config.yml', 'utf8'));
+global.config = yaml.safeLoad(fs.readFileSync('config/server.yml', 'utf8'));
 
 const log = require('debug')('pki:server');
 const https = require('https');
@@ -25,6 +25,9 @@ const path = require('path');
 const api = require('./api.js');
 const auth = require('./api/components/auth.js');
 const authority = require('./api/components/authority.js');
+const fileTree = require('./api/utils/fileTree.js');
+
+let issuerPath;
 
 const publicApp = express();
 const app = express();
@@ -51,15 +54,19 @@ if (commandExists('openssl') === false) {
 fs.ensureDir(global.config.pkidir);
 
 let mandatoryMutual = true;
-if (global.config.server.secure.userAuth === false) {
+if (global.config.server.secure.mutualAuth === false) {
     mandatoryMutual = false;
 }
 
 suspend.run(function*() {
 
     log('Generate PKI');
-    return yield* require('./genpki').start();
+    const result = yield* require('./genpki').start();
 
+    issuerPath = path.join(global.config.pkidir, global.config.users.issuer.root, path.sep);
+    issuerPath = yield* fileTree.path(issuerPath, global.config.users.issuer.name);
+
+    return result;
 }, function(err, hasCreated) {
     if (err) {
         log("PKI creation failed with error", err);
@@ -73,23 +80,23 @@ suspend.run(function*() {
         /*
          * Start HTTP and HTTPS server
          */
-        const PATH_TO_CHAIN_CLIENT = path.join(global.config.pkidir, 'public', global.config.ca.root.name, 'intermediate', 'intermediate-client', 'ca-chain-intermediate-client.cert.pem');
+        const PATH_TO_CHAIN_CLIENT = path.join(issuerPath, 'ca-chain-' + global.config.users.issuer.name + '.cert.pem');
 
-        const PATH_TO_CERT = path.join(global.config.pkidir, 'apicert', global.config.api.name + '.cert.pem');
-        const PATH_TO_KEY = path.join(global.config.pkidir, 'apicert', global.config.api.name + '.key.pem');
+        const PATH_TO_CERT = path.join(global.config.pkidir, global.config.certificates.api.directory, global.config.certificates.api.name + '.cert.pem');
+        const PATH_TO_KEY = path.join(global.config.pkidir, global.config.certificates.api.directory, global.config.certificates.api.name + '.key.pem');
 
         const options = {
             ca: [fs.readFileSync(PATH_TO_CHAIN_CLIENT)],
             cert: fs.readFileSync(PATH_TO_CERT),
             key: fs.readFileSync(PATH_TO_KEY),
-            passphrase: global.config.api.password,
+            passphrase: global.config.certificates.api.passphrase,
             requestCert: true,
             rejectUnauthorized: mandatoryMutual
         };
         const publicOpts = {
             cert: fs.readFileSync(PATH_TO_CERT),
             key: fs.readFileSync(PATH_TO_KEY),
-            passphrase: global.config.api.password,
+            passphrase: global.config.certificates.api.passphrase,
             requestCert: false
         };
         log(">>>>>> API CERT " + PATH_TO_CERT);
@@ -98,7 +105,7 @@ suspend.run(function*() {
         app.use(bodyparser.json()); // JSON body parser for /api/ paths
 
         const server = https.createServer(options, app);
-        server.listen(global.config.server.secure.port, global.config.server.listen.ip, function() {
+        server.listen(global.config.server.secure.listen.port, global.config.server.secure.listen.ip, function() {
             const host = server.address().address;
             const port = server.address().port;
 
@@ -118,12 +125,12 @@ suspend.run(function*() {
                 res.send('hello public API');
             });
             const publicS = https.createServer(publicOpts, publicApp);
-            publicS.listen(global.config.server.public.port, global.config.server.public.domain, function() {
+            publicS.listen(global.config.server.public.listen.port, global.config.server.public.listen.ip, function() {
                 const host = publicS.address().address;
                 const port = publicS.address().port;
 
                 log(">>>>>> HTTPS Public server is listening on " + host + ":" + port + " <<<<<<");
-                log("Public directory is " + global.config.pkidir + " avalaible at https://" + global.config.server.public.domain + ":" + port + "/");
+                log("Public directory is " + global.config.pkidir + "public/ avalaible at https://" + global.config.server.crl.domain + ":" + port + "/");
 
                 api.initPublicAPI(publicApp);
             });

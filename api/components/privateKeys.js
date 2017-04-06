@@ -11,7 +11,7 @@ function* createPrivateKey(keyName, passphrase, numbits, info) {
 
     log('>>>>>>>>>> Creating private key', keyName);
 
-    const pkidir = global.config.pkidir + 'tmp/';
+    const pkidir = path.join(global.config.pkidir, 'tmp', path.sep);
     yield fs.ensureDir(pkidir, cont());
 
     yield ssl.key(keyName, passphrase, numbits, pkidir, cont());

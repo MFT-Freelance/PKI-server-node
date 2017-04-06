@@ -100,10 +100,7 @@ user.remove = function(req, res) {
         const removed = yield* auth.delUser(username);
 
         if (removed !== false) {
-            const userIssuer = {
-                root: global.config.ca.root.name,
-                name: 'intermediate-client'
-            };
+            const userIssuer = global.config.users.issuer;
 
             const nb = yield* request.nameRevoke(removed, userIssuer);
 

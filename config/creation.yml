@@ -1,0 +1,71 @@
+###
+### Config for PKI creation
+###
+
+pkidir: 'D:/Perso/BACKUP/pki/'
+
+ca:
+  roots:
+    root:
+      passphrase: 'xxxx'
+      days: 3650
+      country: FR
+      state: PACA
+      locality: Antibes
+      organization: MFT
+      unit: Development
+      commonname: API Root CA
+      issued:
+        - name: 'intermediate'
+          passphrase: 'yyyyy'
+          commonname: Intermediate CA
+          issued:
+            - name: 'intermediate-client'
+              passphrase: 'zzzzz'
+              commonname: Client Intermediate CA
+            - name: 'intermediate-server'
+              passphrase: 'aaaaaaaa'
+              commonname: Server Intermediate CA
+    base:
+      passphrase: 'bbbbbb'
+      days: 3650
+      country: FR
+      state: PACA
+      locality: Antibes
+      organization: MFT
+      unit: Freelance
+      commonname: External Root CA
+      issued:
+        - name: 'intermediate'
+          passphrase: 'ccccccc'
+          commonname: Other Intermediate CA
+          issued:
+            - name: 'base-use-ca'
+              passphrase: 'ccccccc'
+              commonname: For external use
+
+server:
+  commonname: 'localhost'
+  altIps: [127.0.0.1]
+  altNames: [localhost]
+  certificate:
+    directory: 'apicert'
+    name: 'api'
+    passphrase: 'ddddddd'
+    lifetime: 365
+  issuer: 
+    root: 'root'
+    name: 'intermediate-server'
+
+users:
+  issuer: 
+    root: 'root'
+    name: 'intermediate-client'
+  admin:
+    username: 'admin'
+    passphrase: 'eeeeeeeee'
+  others:
+    - username: 'test'
+      passphrase: 'ffff'
+    - username: 'guy'
+      passphrase: 'ggggg'

@@ -117,7 +117,7 @@ function createIntermediateFileStructure(parentDir, publicDir, newPath, days, in
     openssl_intermediate = openssl_intermediate.replace(/{organization}/g, info.O);
     openssl_intermediate = openssl_intermediate.replace(/{commonname}/g, info.CN);
     openssl_intermediate = openssl_intermediate.replace(/{ocspurl}/g, 'http://' + global.config.server.ocsp.domain + ':' + ocspPort.toString());
-    openssl_intermediate = openssl_intermediate.replace(/{crlurl}/g, 'https://' + global.config.server.public.domain + ':' + global.config.server.public.port + '/' + publicDir + '/' + newPath + '.crl.pem');
+    openssl_intermediate = openssl_intermediate.replace(/{crlurl}/g, 'https://' + global.config.server.crl.domain + ':' + global.config.server.crl.port + '/' + publicDir + '/' + newPath + '.crl.pem');
     fs.writeFileSync(parentDir + newPath + '/openssl.cnf', openssl_intermediate);
 }
 

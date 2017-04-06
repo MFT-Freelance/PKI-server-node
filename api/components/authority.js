@@ -87,6 +87,7 @@ function* createIntermediateCA(config, issuer) {
         ST: config.info.ST,
         L: config.info.L,
         O: config.info.O,
+        OU: config.info.OU,
         CN: global.config.server.ocsp.domain
     };
     yield* ocsp.createOCSPKeys(ocspPath, config.passphrase, ocspInfo);

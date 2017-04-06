@@ -100,7 +100,7 @@ ca.root = function(req, res) {
 
         const data = req.body;
 
-        const lifetime = data.days ? data.days : global.config.ca.root.days;
+        const lifetime = data.days ? data.days : global.config.certificates.ca_lifetime_default;
         const password = data.passphrase ? data.passphrase : uuidV4().toString();
 
         const caExists = yield* fileTree.path(global.config.pkidir, data.name);
@@ -187,7 +187,7 @@ ca.intermediate = function(req, res) {
 
         const data = req.body;
 
-        const lifetime = data.days ? data.days : global.config.ca.intermediate.days;
+        const lifetime = data.days ? data.days : global.config.certificates.ca_lifetime_default;
         const password = data.passphrase ? data.passphrase : uuidV4().toString();
 
         const caExists = yield* fileTree.path(global.config.pkidir, data.name);

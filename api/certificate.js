@@ -117,8 +117,8 @@ certificate.signing = function(req, res) {
 
     const data = req.body;
 
-    let lifetime = data.lifetime ? data.lifetime : global.config.cert.lifetime_default;
-    lifetime = global.config.cert.lifetime_max >= lifetime ? lifetime : global.config.cert.lifetime_max;
+    let lifetime = data.lifetime ? data.lifetime : global.config.certificates.lifetime_default;
+    lifetime = global.config.certificates.lifetime_max >= lifetime ? lifetime : global.config.certificates.lifetime_max;
 
     const type = (data.type && data.type === 'client') ? 'usr_cert' : 'server_cert';
 
@@ -210,8 +210,8 @@ certificate.pairCreation = function(req, res) {
 
     const data = req.body;
 
-    let lifetime = data.lifetime ? data.lifetime : global.config.cert.lifetime_default;
-    lifetime = global.config.cert.lifetime_max >= lifetime ? lifetime : global.config.cert.lifetime_max;
+    let lifetime = data.lifetime ? data.lifetime : global.config.certificates.lifetime_default;
+    lifetime = global.config.certificates.lifetime_max >= lifetime ? lifetime : global.config.certificates.lifetime_max;
 
     const numbits = data.numBits && validator.numberIsBits(data.numBits) ? data.numBits : 4096;
 

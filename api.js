@@ -11,7 +11,7 @@ const USER_AUTH = 1;
 const ADMIN_AUTH = 0;
 
 let acceptBasic = false;
-if (global.config.server.secure.userAuth === false) {
+if (global.config.server.secure.mutualAuth === false) {
     acceptBasic = true;
 }
 

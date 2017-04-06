@@ -4,12 +4,19 @@ const crypto = require('crypto');
 const fs = require('fs-extra');
 const log = require('debug')('pki:api:component:auth');
 const suspend = require('suspend');
+const yaml = require('js-yaml');
 const cont = suspend.resume;
 const path = require('path');
 const privateKeys = require('./privateKeys.js');
 const request = require('./request.js');
 
 const DB_FILE_PATH = path.join(global.config.pkidir, 'db', 'user.db');
+
+let config;
+if (fs.existsSync('config/creation.yml')) {
+    log("Reading config file config/creation.yml ...");
+    config = yaml.safeLoad(fs.readFileSync('config/creation.yml', 'utf8'));
+}
 
 /*
  * Add a new user to DB
@@ -169,21 +176,19 @@ function basicAuth(req, cb) {
 }
 
 function* createUserKey(username, passWord) {
+    const ca = config.ca.roots[config.users.issuer.root];
     const info = {
-        C: global.config.ca.root.country,
-        ST: global.config.ca.root.state,
-        L: global.config.ca.root.locality,
-        O: global.config.ca.root.organization,
+        C: ca.country,
+        ST: ca.state,
+        L: ca.locality,
+        O: ca.organization,
+        OU: ca.unit,
         CN: crypto.createHash('sha256').update(username + ':' + passWord).digest('hex')
     };
 
-    const issuer = {
-        root: global.config.ca.root.name,
-        name: 'intermediate-client'
-    };
     const privates = yield* privateKeys.create(username, passWord, 4096, info);
 
-    const certdata = yield* request.sign(privates.csr, issuer, 'usr_cert', 365);
+    const certdata = yield* request.sign(privates.csr, config.users.issuer, 'usr_cert', 365);
 
     return {
         key: privates.key,
