@@ -1,10 +1,22 @@
 # PKI-server-node
 A Public Key Infrastructure management server in Node JS
 
+Note: Basic notions of security are available [here](/KNOWLEDGE.md).
+
+## Features
+- Add certificate authorities, root and intermediate
+- Create / remove users
+- Create private key / certificate pair signed by your CA
+- Get certificates list signed by the CAs
+- Revoke a certificate or all certificates related to a domain
+
+## Coming next
+- Import an existing CA hierarchy
+
 ## Getting started
 Note: You can make this project work on a Windows environment by using Cygwin to start the project. You will still have to have openssl installed though.
 ### Execute npm install
-### Modify data/config/config.yml to fit your requirements
+### Modify config/creation.yml and config/server.yaml to fit your requirements
 Note: The pkidir path should be set with UNIX style separators ("/") whatever your environment.
 ### Start server with "node server.js"
 Note: You can have debug logs by setting environment variable "DEBUG=pki:*".

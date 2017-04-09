@@ -95,6 +95,9 @@ const delUser = function*(username) {
 
     yield fs.writeFile(DB_FILE_PATH, passfile_out, cont());
 
+    // TODO : revoke user certificate
+    // TODO : remove user directory
+
     return changed;
 
 };

@@ -78,7 +78,7 @@ suspend.run(function*() {
         fs.ensureFileSync(auth.DB_FILE_PATH);
 
         /*
-         * Start HTTP and HTTPS server
+         * Start Public and Secured server
          */
         const PATH_TO_CHAIN_CLIENT = path.join(issuerPath, 'ca-chain-' + global.config.users.issuer.name + '.cert.pem');
 
@@ -120,7 +120,7 @@ suspend.run(function*() {
             api.initAPI(app);
 
             publicApp.use(express.static(global.config.pkidir + 'public')); // Static dir.
-            publicApp.use(bodyparser.json()); // JSON body parser for /api/ paths
+            publicApp.use(bodyparser.json()); // JSON body parser for public paths
             publicApp.get('/ping', function(req, res) {
                 res.send('hello public API');
             });
