@@ -31,9 +31,11 @@ function PKIExists() {
     fs.ensureDir(pkidir);
 
     if (fs.existsSync(pkidir + 'created')) {
-        log(">>> PKIExists in", pkidir);
+        log(">>> PKI Exists in", pkidir);
         return true;
     } else {
+        log(">>> PKI do not exists in", pkidir);
+        log(">>> Creating PKI");
         return false;
     }
 }

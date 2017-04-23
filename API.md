@@ -7,8 +7,8 @@ API response bodies:
         <more attributes>
     }
 
-Set VERBOSE_SSL=true as environment variable to log openssl output
-Set DEBUG=pki:* to see debug logs
+    Set VERBOSE_SSL=true as environment variable to log openssl output
+    Set DEBUG=pki:* to see debug logs
 
 ## Public HTTPS server
 

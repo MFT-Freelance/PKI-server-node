@@ -3,11 +3,13 @@ On internet every communication go through a number of servers and routers. At a
 The only way to ensure privacy in the wild is through encryption. You encrypt your message, with "Keys", so that your target is the only one able to decrypt and read it.
 Once you know that your message is not interceptable, the other problem is to identify who you are talking to. That is achieved through the "Signature" of your keys by an authority.
 
+Note that what follows is a vulgarization of those basic notions, it is just a starting point and not an exhaustive and perfectly accurate description of those.
+
 ## Encryption
 There are 2 types of keys used for encrytion, symmetric and asymmetric.
 
 ### Symmetric key
-With symmetric keys encryption, the same key is used to encrypt and decrypt the message. Think of it as a shared password between you and your target. The encryption/decryption is an order of magnitude faster with symmetric keys than with asymmetric keys but it implies that more than one entity (you and every one you want to talk to in our case) are responsible for keeping the key actually secret, which is obviously a big security flaw.
+With symmetric keys encryption, the same key is used to encrypt and decrypt the message. Think of it as a shared password between you and your target. The encryption/decryption is an order of magnitude faster with symmetric keys than with asymmetric keys but it implies that more than one entity (you and every one you want to talk to in our case) are responsible for keeping the key actually secret, which is quite problematic for long lasting communications.
 
 ### Asymmetric key
 Asymmetric keys are composed of 2 parts, a secret key (SK) and a public key (PK). As the name implies a SK is secret and is never shared with anyone, that responsibility is only on the owner of the SK, while a PK is public and shared with everyone.
@@ -15,7 +17,8 @@ The PK is used to encrypt the message and then it can only be decrypted by the S
 As noted above the encryption by asymmetric keys is an order of magnitude slower than with symmetric key but is a fundamental piece of internet privacy and security.
 
 ### Message integrity
-In both cases (symmetric or asymmetric keys) if it is tampered with, the message is unreadable. It ensures, quite crudely, the integrity of your communications.
+Message integrity is added by sending a hash of the message alongside it.
+A hash is a one way computation of a message using an algorithm that will produce the same result from the same input. When you receive a message and its hash, you compute your own hash, from the message, using the same algorithm and if the two hash (the one you receive and the one you compute) matches then you know the message has not be tampered with.
 
 ## Identification
 Once you know that your message can't be read or tampered with by others, you need to be sure that the person you are talking to is really who you think they are. This is achieved through the signature of the public key by a certificate authority.
@@ -29,7 +32,7 @@ Basic security mandates that the authority PK used to verify the PK coming from 
 In real life, CAs are companies that check the veracity of the informations you put in your certificates. 
 If you request the signature of a PK for a domain name, they check that you own that domain. If you claim to be a company or that you live in a particular country, they verify that you do. And if it's true they sign your PK.
 Those are well known companies like VeriSign, GeoTrust or StartSSL and their PKs are included in browsers or OS during installation because of the trust they built with manufacturers over time (they are the Trusted Third Party).
-The downside of that scheme is that their service is not free, since the verification takes time and money.
+The downside of that scheme is that their service is mostly not free, since the verification takes time and money. (StartSSL have a free plan but you can't use the certificates it produces for production)
 
 ## TLS/SSL
 Transport Security Layer is the child of Socket Security Layer and is the standard for internet security. Its most well known application is Secured HTTP (HTTPS). It implements all the principles we discussed before.
