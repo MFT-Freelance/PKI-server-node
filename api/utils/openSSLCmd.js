@@ -160,7 +160,14 @@ function readInfo(caCert, folder, cb) {
     exec('openssl x509 -text -noout -in ' + caCert, {
         cwd: folder
     }, function(err, stdout, stderr) {
-        callback(cb, err, stdout, stderr);
+        if (verbose && stderr) {
+            console.info(stderr);
+        }
+        if (err && err !== '') {
+            cb(err);
+        } else {
+            cb(undefined, stdout);
+        }
     });
 }
 
