@@ -12,6 +12,10 @@ API response bodies:
 
 ## Public HTTPS server
 
+### Get authorities list (Public)
+
+    GET /authorities/
+
 ### Download CA public key (Public)
 
     GET /:cafilepath
@@ -221,21 +225,20 @@ API response bodies:
     Request params:
 
     Response:
-    * certificates: <Array> | array of all certificates
-        * issuer: <Object>
-            * root <String> | Issuer CA root
-            * name <String> | Issuer certificate name
-        * certificate <Object>
-            * state <String> | State of the certificate (V/R/E)
-            * expirationtime <String> | Certificate expiration time
-            * revocationtime <String> | Certificate revocation time (if revoked)
-            * serial <String> | Certificate serial number
-            * subject <Object>
-                * C <String> | Country
-                * ST <String> | State
-                * L <String> | Locality
-                * O <String> | Organisation (if the issuer is root, Organisation must be the same as issuer)
-                * CN <String> | Common name
+    * [rootname]: <Object> | entry for one ca root
+        * [issuername]: <Object> | entry for one ca
+            * certificate <Array> | Array of certificates
+                * certificate <Object>
+                    * state <String> | State of the certificate (V/R/E)
+                    * expirationtime <String> | Certificate expiration time
+                    * revocationtime <String> | Certificate revocation time (if revoked)
+                    * serial <String> | Certificate serial number
+                    * subject <Object>
+                        * C <String> | Country
+                        * ST <String> | State
+                        * L <String> | Locality
+                        * O <String> | Organisation (if the issuer is root, Organisation must be the same as issuer)
+                        * CN <String> | Common name
 
 
 ### Revoke all certificates related to a domain (Authenticated Admin)

@@ -216,4 +216,17 @@ ca.intermediate = function(req, res) {
 
 };
 
+ca.list = function(req, res) {
+    suspend.run(function*() {
+
+        return yield* authority.list();
+
+    }, function(err, result) {
+        if (err) {
+            log('err', err);
+        }
+        response.callback(err, 101, result, res);
+    });
+};
+
 module.exports = ca;

@@ -30,6 +30,10 @@ const initPublicAPI = function(app) {
         caapi.get(req, res);
     });
 
+    app.get('/authorities/', function(req, res) {
+        caapi.list(req, res);
+    });
+
     app.put('/certificate/info/', function(req, res) {
         certapi.certificate.info(req, res);
     });

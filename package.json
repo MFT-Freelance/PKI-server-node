@@ -1,6 +1,6 @@
 {
     "name": "nodepki",
-    "version": "0.0.1",
+    "version": "1.0.1",
     "description": "NodeJS-based PKI server for x509 certificate management.",
     "author": "Font Mathieu",
     "license": "MIT",

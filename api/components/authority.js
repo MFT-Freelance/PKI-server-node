@@ -171,6 +171,16 @@ function* updateCRL() {
     return true;
 }
 
+function* authoritiesList() {
+    const authorities = yield* fileTree.indexes([], global.config.pkidir);
+
+    authorities.forEach(function(ca) {
+        delete ca.path;
+    });
+
+    return authorities;
+}
+
 function* certificateList() {
     const indexList = yield* fileTree.indexes([], global.config.pkidir);
     const certificates = {};
@@ -230,5 +240,6 @@ module.exports = {
     intermediate: createIntermediateCA,
     verify: verifyCert,
     crl: updateCRL,
-    certificates: certificateList
+    certificates: certificateList,
+    list: authoritiesList
 };
