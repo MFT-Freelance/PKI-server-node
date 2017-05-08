@@ -10,6 +10,7 @@ const ajv = Ajv({
     allErrors: true
 });
 
+const cadb = require('../components/cadb');
 
 const validator = {};
 
@@ -51,7 +52,7 @@ validator.checkAPI = function(schema, data) {
 
         return {
             success: false,
-            errors: errors
+            errors
         };
     }
 };
@@ -60,5 +61,19 @@ validator.numberIsBits = function(myNum) {
     return _.includes([512, 1024, 2048, 4096], myNum);
 };
 
+validator.issuerExists = function(root, name, cb) {
+    cadb.getCAInfo(root, name, function(err, issuerInfo) {
+        if (err) {
+            cb(err);
+        } else {
+            if (_.isNil(issuerInfo)) {
+                cb(null, false);
+            } else {
+                cb(null, issuerInfo);
+            }
+        }
+    });
+
+};
 
 module.exports = validator;

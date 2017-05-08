@@ -75,7 +75,7 @@ function* createIntermediateCA(config, issuer) {
 
     yield cadb.saveCaInfo(issuer.root, issuer.name, config.name, config.passphrase, ocspPort, cont());
 
-    const cachain = yield* getChain(issuer.root, path.join(myCWD, config.name + '.cert.pem'));
+    const cachain = yield* fileTree.chain(issuer.root, path.join(myCWD, config.name + '.cert.pem'));
     yield fs.writeFile(path.join(myCWD, 'ca-chain-' + config.name + '.cert.pem'), cachain, cont());
 
     // Make CA chain cert public
@@ -93,30 +93,6 @@ function* createIntermediateCA(config, issuer) {
     yield* ocsp.createOCSPKeys(ocspPath, config.passphrase, ocspInfo);
 
     return cachain;
-}
-
-function* getChain(rootname, childPath) {
-    let fullChain = yield fs.readFile(childPath, 'utf8', cont());
-    const dirPath = path.dirname(childPath);
-    const directories = dirPath.split(path.sep);
-    const l = directories.length - 2;
-    for (let i = l; i >= 0; i--) {
-        try {
-            const parentPath = directories.slice(0, i + 1).join(path.sep);
-            const chainFile = path.join(parentPath, path.sep, directories[i] + '.cert.pem');
-            const chain = yield fs.readFile(chainFile, 'utf8', cont());
-            fullChain += '\n\n' + chain;
-            log('add to ca chain:', chainFile);
-            if (directories[i] === rootname) {
-                return fullChain;
-            }
-        } catch (err) {
-            if (err.code !== 'ENOENT') {
-                throw err;
-            }
-        }
-    }
-    return fullChain;
 }
 
 function* verifyCert(issuer, cert) {

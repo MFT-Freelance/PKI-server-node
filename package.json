@@ -1,6 +1,6 @@
 {
     "name": "nodepki",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "NodeJS-based PKI server for x509 certificate management.",
     "author": "Font Mathieu",
     "license": "MIT",
@@ -25,7 +25,8 @@
         "suspend": "0.7.0",
         "uuid": "3.x",
         "yargs": "6.6.x",
-        "lodash": "4.x"
+        "lodash": "4.x",
+        "moment": "2.18.1"
     },
     "devDependencies": {}
 }

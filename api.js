@@ -95,6 +95,10 @@ const initAPI = function(app) {
     app.post(apipath + '/ca/intermediate/', auth.authenticate(ADMIN_AUTH, false), function(req, res) {
         caapi.intermediate(req, res);
     });
+
+    app.put(apipath + '/ca/import/', auth.authenticate(ADMIN_AUTH, false), function(req, res) {
+        caapi.import(req, res);
+    });
 };
 
 module.exports = {

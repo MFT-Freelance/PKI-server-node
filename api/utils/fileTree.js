@@ -30,6 +30,7 @@ function* walkAndSearch(baseDir, fileName) {
 }
 
 function* findFilePath(baseDir, fileName) {
+    log('findFilePath', fileName, baseDir);
     try {
         yield fs.access(path.join(baseDir, fileName), cont());
         return path.join(baseDir, fileName);
@@ -160,11 +161,36 @@ function* findAllIndexText(fileList, baseDir, rootName) {
     return fileList;
 }
 
+function* getChain(rootname, childPath) {
+    let fullChain = yield fs.readFile(childPath, 'utf8', cont());
+    const dirPath = path.dirname(childPath);
+    const directories = dirPath.split(path.sep);
+    const l = directories.length - 2;
+    for (let i = l; i >= 0; i--) {
+        try {
+            const parentPath = directories.slice(0, i + 1).join(path.sep);
+            const chainFile = path.join(parentPath, path.sep, directories[i] + '.cert.pem');
+            const chain = yield fs.readFile(chainFile, 'utf8', cont());
+            fullChain += '\n\n' + chain;
+            log('add to ca chain:', chainFile);
+            if (directories[i] === rootname) {
+                return fullChain;
+            }
+        } catch (err) {
+            if (err.code !== 'ENOENT') {
+                throw err;
+            }
+        }
+    }
+    return fullChain;
+}
+
 module.exports = {
     file: walkAndSearch,
     path: findFilePath,
     route: getPublicTreeFromRoot,
     rootStructure: createRootFileStructure,
     structure: createIntermediateFileStructure,
-    indexes: findAllIndexText
+    indexes: findAllIndexText,
+    chain: getChain
 };

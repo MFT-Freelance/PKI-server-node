@@ -1,6 +1,5 @@
 'use strict';
 const log = require('debug')('pki:api:component:request');
-const _ = require('lodash');
 const fs = require('fs-extra');
 const uuidV4 = require('uuid/v4');
 const path = require('path');
