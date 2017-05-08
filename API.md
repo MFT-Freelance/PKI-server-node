@@ -101,6 +101,23 @@ API response bodies:
     * certChain: <String> | chained certificate
 
 
+### Import a certificate authority (Authenticated Admin)
+
+    PUT /api/v1/ca/import/
+
+    Request params:
+    * name <String> | required | CA name
+    * passphrase <String> | required | CA passphrase
+    * key: <String> | required | private key file content
+    * cert: <String> | required | certificate (public key) file content
+    * issuer: <Object> | optional | If not present the CA is imported as a new Root
+        * root <String> | required | Issuer CA root
+        * name <String> | required | Issuer certificate name
+
+    Response:
+    * root <String> | required | Imported CA root
+    * name <String> | required | Imported CA name
+
 ## Users
 
 ### Create a new API user (Authenticated Admin)

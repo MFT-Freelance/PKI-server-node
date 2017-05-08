@@ -9,9 +9,10 @@ Note: Basic notions of security are available [here](/KNOWLEDGE.md).
 - Create private key / certificate pair signed by your CA
 - Get certificates list signed by the CAs
 - Revoke a certificate or all certificates related to a domain
+- Import an existing CA hierarchy
 
 ## Coming next
-- Import an existing CA hierarchy
+- OCSP Server managment
 
 ## Getting started
 Note: You can make this project work on a Windows environment by using Cygwin to start the project. You will still have to have openssl installed though.

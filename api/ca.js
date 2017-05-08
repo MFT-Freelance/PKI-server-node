@@ -3,8 +3,11 @@
 const log = require('debug')('pki:api:ca');
 const path = require('path');
 const suspend = require('suspend');
+const cont = suspend.resume;
 const uuidV4 = require('uuid/v4');
+const _ = require('lodash');
 const authority = require('./components/authority');
+const importing = require('./components/import');
 const fileTree = require('./utils/fileTree.js');
 const validator = require('./utils/validator.js');
 const response = require('./utils/baseResponse.js');
@@ -106,7 +109,7 @@ ca.root = function(req, res) {
         const lifetime = data.days ? data.days : global.config.certificates.ca_lifetime_default;
         const password = data.passphrase ? data.passphrase : uuidV4().toString();
 
-        const caExists = yield* fileTree.path(global.config.pkidir, data.name);
+        const caExists = yield validator.issuerExists(data.name, data.name, cont());
         if (caExists) {
             throw new Error('A CA already exists with the name: ' + data.name);
         }
@@ -196,9 +199,14 @@ ca.intermediate = function(req, res) {
         const lifetime = data.days ? data.days : global.config.certificates.ca_lifetime_default;
         const password = data.passphrase ? data.passphrase : uuidV4().toString();
 
-        const caExists = yield* fileTree.path(global.config.pkidir, data.name);
+        const caExists = yield validator.issuerExists(data.issuer.root, data.name, cont());
         if (caExists) {
             throw new Error('A CA key already exists with the name: ' + data.name);
+        }
+
+        const issuerExists = yield validator.issuerExists(data.issuer.root, data.issuer.name, cont());
+        if (!issuerExists) {
+            throw new Error('Unknown issuer :' + data.issuer.root + ' >>>> ' + data.issuer.name);
         }
 
         const cfg = {
@@ -212,6 +220,80 @@ ca.intermediate = function(req, res) {
         return yield* authority.intermediate(cfg, issuer);
     }, function(err, certChain) {
         response.callback(err, 101, certChain, res);
+    });
+
+};
+
+ca.import = function(req, res) {
+    // Validate user input
+    const schema = {
+        "properties": {
+            "name": {
+                "type": "string"
+            },
+            "passphrase": {
+                "type": "string"
+            },
+            "key": {
+                "type": "string"
+            },
+            "cert": {
+                "type": "string"
+            },
+            "issuer": {
+                "type": "object",
+                "properties": {
+                    "root": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "required": ["root", "name"]
+            }
+        },
+        "required": ["name", "passphrase", "key", "cert"]
+    };
+
+    log("Client is importing new CA ", req.body);
+
+    // Check API conformity
+    const check = validator.checkAPI(schema, req.body);
+    if (check.success === false) {
+        response.apiError(check.errors, res);
+        return;
+    }
+
+    const data = req.body;
+    suspend.run(function*() {
+
+        let rootName = data.name;
+        // Check if issuer is present and exists
+        if (!_.isNil(data.issuer)) {
+            rootName = data.issuer.root;
+            log('root of import is :' + data.issuer.root + ' >>>> ' + data.issuer.name);
+            const issuerExists = yield validator.issuerExists(data.issuer.root, data.issuer.name, cont());
+            if (!issuerExists) {
+                throw new Error('Unknown issuer :' + data.issuer.root + ' >>>> ' + data.issuer.name);
+            }
+        }
+
+        // Check if ca already exists
+        const caExists = yield validator.issuerExists(rootName, data.name, cont());
+        if (caExists) {
+            throw new Error('A CA key already exists with the name: ' + data.name);
+        }
+
+        //Import root CA
+        if (_.isNil(data.issuer)) {
+            return yield* importing.root(data.name, data.key, data.cert, data.passphrase);
+        } else {
+            return yield* importing.intermediate(data.issuer, data.name, data.key, data.cert, data.passphrase);
+        }
+
+    }, function(err, result) {
+        response.callback(err, 101, result, res);
     });
 
 };
